@@ -28,9 +28,11 @@ export default function SessionScreen() {
     }
 
     return (
-        <StackScreen title={routine?.name}>
-             <SessionHeader />
-             <SessionForm />
+        <StackScreen  title={routine?.name}>
+            <View style={{ flex: 1}}>
+                <SessionHeader />
+                <SessionForm />
+            </View>
         </StackScreen>
     )
 }

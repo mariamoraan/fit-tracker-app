@@ -51,6 +51,7 @@ export const SessionForm = () => {
             horizontal 
             contentContainerStyle={styles.exercisesList}
             showsHorizontalScrollIndicator={false}
+            style={{flexGrow: 0}}
             >
                 {activeExercises
                 ?.map(exercise => (

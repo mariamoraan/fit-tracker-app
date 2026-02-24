@@ -5,10 +5,14 @@ import { StyleSheet } from "react-native"
 export const styles = StyleSheet.create({
     sessionForm: {
         marginTop: 24,
-        gap: 24,
+        flex: 1,
+        justifyContent: 'flex-start',
     },
     exercisesList: {
+        marginBottom: 24,
+        alignItems: 'flex-start',
         gap: 8,
+        flexGrow: 0,
     },
     exercisesListLi: {
         paddingVertical: 12,
@@ -46,10 +50,10 @@ export const styles = StyleSheet.create({
         color: Colors.color_zinc_100,
     },
     seriesListLiTextReps: {
-        flex: 1,
+
     },
     newSerieWrapper: {
-        marginTop: 24,
+        marginTop: 'auto',
     },
     newSerieForm: {
         padding: 12,
@@ -70,7 +74,7 @@ export const styles = StyleSheet.create({
         fontSize: Typography.md.fontSize,
     },
     setTable: {
-      
+        
     },
     setTableHeader: {
         marginBottom: 12,
@@ -79,6 +83,7 @@ export const styles = StyleSheet.create({
         gap: 8,
     },
     setTableRow: {
+        
         flexDirection: 'row',
         gap: 4,
     },

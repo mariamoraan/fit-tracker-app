@@ -7,11 +7,11 @@ import { fonts } from "./fonts";
 export const DarkTheme: Theme = {
   dark: true,
   colors: {
-    primary: 'rgb(10, 132, 255)',
+    primary: Colors.color_accent_500,
     background: Colors.color_zinc_900,
     card: 'rgb(18, 18, 18)',
-    text: 'rgb(229, 229, 231)',
-    border: 'rgb(39, 39, 41)',
+    text: Colors.color_zinc_100,
+    border: Colors.color_zinc_100,
     notification: 'rgb(255, 69, 58)',
   },
   fonts,

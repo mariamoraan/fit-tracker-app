@@ -25,6 +25,7 @@ export const StackScreen: React.FC<React.PropsWithChildren<Props>> = (props) => 
                 paddingHorizontal: 16,
                 paddingBottom: 96,
                 paddingTop: 24,
+                flex: 1
             }}
         >
             {children}
