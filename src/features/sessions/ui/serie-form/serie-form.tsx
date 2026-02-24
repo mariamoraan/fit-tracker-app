@@ -24,8 +24,8 @@ export const SerieForm: React.FC<Props> = (props) => {
     }
 
     return (
-        <View style={{gap: 8}}>
-            <View style={{flexDirection: 'row', gap: 4}}>
+        <View>
+            <View style={{flexDirection: 'row', gap: 4, marginBottom: 8,}}>
                 <View style={[styles.field, styles.metricsField]}>
                     <Text style={styles.label}>Reps</Text>
                     <TextInput
@@ -46,7 +46,7 @@ export const SerieForm: React.FC<Props> = (props) => {
                     />
                 </View>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'flex-end', gap: 12, paddingTop: 4}}>
+            <View style={{flexDirection: 'row', justifyContent: 'flex-end', gap: 12,}}>
                 <Pressable
                     onPress={onCancel}
                     style={styles.cancelButton}

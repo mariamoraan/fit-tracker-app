@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         gap: 8,
     },
     label: {
-        marginBottom: 8,
+        marginBottom: 4,
         fontSize: Typography.sm.fontSize,
         color: Colors.color_zinc_400
     },
@@ -38,11 +38,9 @@ export const styles = StyleSheet.create({
         color: "black",
     },
     metricsInput: {
-        flex: 1,
-        minWidth: 0,
-        marginRight: 4,
         paddingVertical: 2,
         paddingHorizontal: 4,
+        minHeight: 40,
     },
     cancelButton: {
         paddingHorizontal: 12,

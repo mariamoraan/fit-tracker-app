@@ -1,18 +1,18 @@
 import { Colors } from "@/src/core/theme/colors";
+import { Typography } from "@/src/core/theme/theme";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
-    borderColor: Colors.color_zinc_800,
-    borderRadius: 16,
-    padding: 16,
+    paddingTop: 24,
+    borderTopWidth: 1,
+    borderColor: Colors.color_zinc_500,
     gap: 14,
   },
 
   dateText: {
     color: Colors.color_zinc_100,
-    fontSize: 14,
+    fontSize: Typography.md.fontSize,
   },
 
   smallMutedText: {
@@ -26,8 +26,7 @@ export const styles = StyleSheet.create({
 
   sessionCard: {
     borderWidth: 1,
-    borderColor: Colors.color_zinc_800,
-    backgroundColor: Colors.color_zinc_950,
+    borderColor: Colors.color_zinc_600,
     borderRadius: 14,
     overflow: "hidden",
   },
@@ -52,13 +51,13 @@ export const styles = StyleSheet.create({
 
   sessionRoutineName: {
     color: Colors.color_zinc_100,
-    fontSize: 12,
+    fontSize: Typography.md.fontSize,
     fontWeight: "600",
   },
 
   sessionStats: {
     color: Colors.color_zinc_500,
-    fontSize: 11,
+    fontSize: Typography.md.fontSize,
   },
 
   expandIcon: {
@@ -112,9 +111,6 @@ export const styles = StyleSheet.create({
   },
 
   addSessionSection: {
-    borderTopWidth: 1,
-    borderTopColor: Colors.color_zinc_800,
-    paddingTop: 12,
     gap: 8,
   },
 
@@ -124,9 +120,18 @@ export const styles = StyleSheet.create({
     gap: 16,
   },
 
-  addSessionTitle: {
-    fontSize: 12,
-    color: Colors.color_zinc_400,
+  addSessionButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: Colors.color_accent_500,
+    justifyContent: 'center',
+    alignItems: 'center', 
+    borderRadius: 8,
+  },
+
+  addSessionButtonTitle: {
+    fontSize: Typography.md.fontSize,
+    color: Colors.color_zinc_800,
     fontWeight: "600",
   },
 
