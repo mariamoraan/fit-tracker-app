@@ -1,7 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { HapticTab } from '@/components/haptic-tab';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { CalendarIcon, GaugeIcon, HouseIcon } from '@/src/core/icons';
 import { PATHS } from '@/src/core/router/paths';
@@ -15,13 +14,13 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
       }}>
-      <Tabs.Screen
+      <Tabs.Screen  
         name="index"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) =>  <HouseIcon color={color} />,
+          tabBarShowLabel: false,
         }}
       />
       <Tabs.Screen
@@ -29,13 +28,16 @@ export default function TabLayout() {
         options={{
           title: 'Routines',
           tabBarIcon: ({ color }) =>  <GaugeIcon color={color} />,
+          tabBarShowLabel: false,
         }}
+        
       />
       <Tabs.Screen
         name={PATHS.CALENDAR.screen}
         options={{
           title: 'Calendar',
           tabBarIcon: ({ color }) =>  <CalendarIcon color={color} />,
+          tabBarShowLabel: false,
         }}
       />
     </Tabs>

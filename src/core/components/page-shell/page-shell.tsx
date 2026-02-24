@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Colors } from "../../theme/colors";
 
 interface PageShellProps {
   title?: string;
@@ -16,7 +15,6 @@ export function PageShell({ title, children }: PageShellProps) {
     style={{
         flex: 1,
         paddingTop: insets.top,
-        backgroundColor: Colors.color_zinc_900,
     }}
     >
       <View style={{ flex: 1, maxWidth: 480, alignSelf: "center", width: "100%" }}>
