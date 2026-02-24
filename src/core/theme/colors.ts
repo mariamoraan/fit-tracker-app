@@ -13,5 +13,14 @@ export const Colors = {
     color_zinc_900: '#18181b',
     color_zinc_950: '#09090b',
     color_black: '#000',
-    color_semantic_green: 'green'
+    color_semantic_green: 'green',
+    color_accent_100: 'hsl(77, 100%, 10%)',
+    color_accent_200: 'hsl(77, 100%, 20%)',
+    color_accent_300: 'hsl(77, 100%, 30%)',
+    color_accent_400: 'hsl(77, 100%, 40%)',
+    color_accent_500: 'hsl(77, 100%, 50%)',
+    color_accent_600: 'hsl(77, 100%, 60%)',
+    color_accent_700: 'hsl(77, 100%, 70%)',
+    color_accent_800: 'hsl(77, 100%, 80%)',
+    color_accent_900: 'hsl(77, 100%, 90%)',
 }

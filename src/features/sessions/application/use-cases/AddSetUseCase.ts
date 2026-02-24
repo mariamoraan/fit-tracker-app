@@ -13,7 +13,7 @@ export interface AddSetInput {
   weight?: number;
 }
 
-export class AddSetToExerciseUseCase {
+export class AddSetUseCase {
   constructor(private readonly repository: SessionRepository) {}
 
   async execute(input: AddSetInput): Promise<WorkoutSession> {

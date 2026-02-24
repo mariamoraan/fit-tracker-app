@@ -11,15 +11,14 @@ export interface SetEntry {
 }
 
 export interface ExerciseLog {
+  id: string;
   routineExerciseId: string;
-  exerciseName: string;
   sets: SetEntry[];
 }
 
 export interface WorkoutSession {
   id: SessionId;
   routineId: RoutineId;
-  routineName: string;
   date: string; // ISO yyyy-mm-dd
   status: "in-progress" | "completed";
   exerciseLogs: ExerciseLog[];

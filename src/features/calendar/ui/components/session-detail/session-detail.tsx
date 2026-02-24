@@ -45,9 +45,8 @@ export const SessionDetail = () => {
 
     const handleCreateSession = async () => {
         if (!selectedDate || !selectedRoutineId) return;
-    
         const routine = getRoutineById(selectedRoutineId);
-        if (!routine || routine.exercises.length === 0) return;
+        if (!routine) return;
         setCreatingSession(true);
         try {
           const useCase = new CreateSessionUseCase(

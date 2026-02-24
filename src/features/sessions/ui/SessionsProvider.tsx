@@ -7,12 +7,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { WorkoutSession } from "../domain/entities/session";
 import type { RoutineId } from "../../routines/domain/entities/routine";
-import { LocalStorageSessionRepository } from "../infrastructure/storage/LocalStorageSessionRepository";
-import { StartOrContinueTodaySessionUseCase } from "../application/use-cases/StartOrContinueTodaySessionUseCase";
-import { AddSetToExerciseUseCase } from "../application/use-cases/AddSetToExerciseUseCase";
+import { AddSetUseCase } from "../application/use-cases/AddSetUseCase";
 import { CompleteSessionUseCase } from "../application/use-cases/CompleteSessionUseCase";
+import { StartOrContinueTodaySessionUseCase } from "../application/use-cases/StartOrContinueTodaySessionUseCase";
+import type { WorkoutSession } from "../domain/entities/session";
+import { LocalStorageSessionRepository } from "../infrastructure/storage/LocalStorageSessionRepository";
 
 interface SessionsContextValue {
   currentSession?: WorkoutSession;
@@ -37,7 +37,7 @@ function createUseCases() {
   const repo = new LocalStorageSessionRepository();
   return {
     startOrContinue: new StartOrContinueTodaySessionUseCase(repo),
-    addSet: new AddSetToExerciseUseCase(repo),
+    addSet: new AddSetUseCase(repo),
     complete: new CompleteSessionUseCase(repo),
   };
 }

@@ -5,6 +5,7 @@ export class GetSessionByIdUseCase {
   constructor(private readonly repository: SessionRepository) {}
 
   async execute(id: string): Promise<WorkoutSession | null> {
-    return this.repository.getById(id);
+    const session =  this.repository.getById(id);
+    return session;
   }
 }

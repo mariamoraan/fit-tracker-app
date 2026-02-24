@@ -90,7 +90,6 @@ export default function RoutineScreen() {
 
     const handleAddExercise = async(exercise: RoutineExercise) => {
         if(!routine) return;
-        console.log('handleAddExercise', 'exercise', exercise)
         const updatedRoutine = await updateExercises(routine.id, [...routine.exercises, exercise])
         setRoutine(updatedRoutine)
     }

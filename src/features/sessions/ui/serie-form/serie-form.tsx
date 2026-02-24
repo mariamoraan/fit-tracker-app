@@ -3,7 +3,7 @@ import { Pressable, Text, TextInput, View } from "react-native";
 import { styles } from "./serie-form.styles";
 
 interface Props {
-    handleCancel: () => void;
+    handleCancel?: () => void;
     handleSerieChange: (serie: {reps?: number, weight?: number}) => void;
     initialSerie?: {reps?: number, weight?: number};
 }
@@ -13,6 +13,7 @@ export const SerieForm: React.FC<Props> = (props) => {
     const [serie, setSerie] = useState<{reps?: number, weight?: number} | undefined>(initialSerie ?? {});
 
     const onCancel = () => {
+        if(!handleCancel) return
         handleCancel();
         setSerie(undefined)
     }
