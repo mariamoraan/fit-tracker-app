@@ -2,14 +2,14 @@ import { StackScreen } from "@/src/core/components/stack-screen/stack-screen";
 import { PATHS } from "@/src/core/router/paths";
 import { Colors } from "@/src/core/theme/colors";
 import { Typography } from "@/src/core/theme/theme";
-import { RoutineExercise, RoutineExerciseState, RoutineMetadata } from "@/src/features/routines/domain/entities/routine";
+import { Routine, RoutineExercise, RoutineExerciseState, RoutineMetadata } from "@/src/features/routines/domain/entities/routine";
 import { RoutineExercisesForm } from "@/src/features/routines/ui/routine-exercises-form/routine-exercises-form";
 import { RoutineForm } from "@/src/features/routines/ui/routine-form/routine-form";
 import { useRoutines } from "@/src/features/routines/ui/RoutinesProvider";
 import { CreateSessionUseCase } from "@/src/features/sessions/application/use-cases/CreateSession";
 import { LocalStorageSessionRepository } from "@/src/features/sessions/infrastructure/storage/LocalStorageSessionRepository";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -64,26 +64,43 @@ export default function RoutineScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const {getRoutineById, updateRoutineMeta, updateExercises} = useRoutines();
     const [isLoadingMeta, setIsLoadingMeta] = useState<boolean>(false);
+    const [routine, setRoutine] = useState<Routine | undefined>()
 
-    const routine = getRoutineById(id)
+    useEffect(() => {
+        if(!id) return;
+        const routine =  getRoutineById(id)
+        setRoutine(routine)
+    }, [id])
 
     const handleSaveMeta = async (metadata: RoutineMetadata) => {
         if(!routine) return;
         if (!metadata.name.trim()) return;
         setIsLoadingMeta(true);
-        await updateRoutineMeta({...metadata, id: routine.id});
+        const updatedRoutine = await updateRoutineMeta({...metadata, id: routine.id});
+        setRoutine(updatedRoutine)
         setIsLoadingMeta(false);
     };
 
     const handleUpdateExercises = async(exercise: RoutineExercise) => {
         if(!routine) return;
-        await updateExercises(routine.id, [exercise])
+        const updatedRoutine =  await updateExercises(routine.id, routine.exercises.map(ex => ex.id === exercise.id ? exercise : ex))
+
+        setRoutine(updatedRoutine)
     }
+
+    const handleAddExercise = async(exercise: RoutineExercise) => {
+        if(!routine) return;
+        console.log('handleAddExercise', 'exercise', exercise)
+        const updatedRoutine = await updateExercises(routine.id, [...routine.exercises, exercise])
+        setRoutine(updatedRoutine)
+    }
+
 
     const handleDeleteExercise = async (exerciseId: string) => {
         if(!routine) return;
         const next = routine.exercises.map((ex) => ex.id !== exerciseId ? ex : ({...ex, state: RoutineExerciseState.DISCARDED}));
-        await updateExercises(routine.id, next);
+        const updatedRoutine = await updateExercises(routine.id, next);
+        setRoutine(updatedRoutine)
     };
 
     const handleStartSession = async() => {
@@ -134,9 +151,9 @@ export default function RoutineScreen() {
                 />
                 {/** EXERCISES EDIT FORM **/}
                 <RoutineExercisesForm 
-                    activeExercises={routine.exercises}
+                    activeExercises={routine.exercises.filter(exercise => exercise.state !== RoutineExerciseState.DISCARDED)}
                     updateExercise={handleUpdateExercises} 
-                    addExercise={handleUpdateExercises}
+                    addExercise={handleAddExercise}
                     handleDeleteExercise={handleDeleteExercise}
                 />
             </View>

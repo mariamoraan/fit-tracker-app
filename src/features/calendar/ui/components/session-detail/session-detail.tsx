@@ -44,13 +44,10 @@ export const SessionDetail = () => {
     const [creatingSession, setCreatingSession] = useState(false);
 
     const handleCreateSession = async () => {
-        console.log('handleCreateSession', 1)
         if (!selectedDate || !selectedRoutineId) return;
     
         const routine = getRoutineById(selectedRoutineId);
-        console.log('handleCreateSession', 2)
         if (!routine || routine.exercises.length === 0) return;
-        console.log('handleCreateSession', 3)
         setCreatingSession(true);
         try {
           const useCase = new CreateSessionUseCase(
@@ -60,14 +57,12 @@ export const SessionDetail = () => {
             routineId: selectedRoutineId,
             date: selectedDate,
           });
-          console.log('new session', newSession)
           setSessions(prev => ([...prev, newSession]))
           router.push({
             pathname: PATHS.START_SESSION({sessionId: newSession.id}).pathname,
             params:  PATHS.START_SESSION({sessionId: newSession.id}).params
           })
         } catch (error) {
-            console.log('handleCreateSession', 'error')
             console.error("Error creating session:", error);
         } finally {
           setCreatingSession(false);

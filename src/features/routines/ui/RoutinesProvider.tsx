@@ -22,11 +22,11 @@ interface RoutinesContextValue {
     color: string;
     daysOfWeek: number[];
     startDay: Date;
-  }) => Promise<void>;
+  }) => Promise<Routine>;
   updateExercises: (
     routineId: RoutineId,
     exercises: Routine["exercises"],
-  ) => Promise<void>;
+  ) => Promise<Routine>;
   getRoutineById: (id: RoutineId) => Routine | undefined;
   reload: () => Promise<void>;
 }
@@ -85,16 +85,18 @@ export function RoutinesProvider({
     daysOfWeek: number[];
     startDay: Date;
   }) => {
-    await useCases.updateRoutineMeta.execute(input);
+    const routine = await useCases.updateRoutineMeta.execute(input);
     await load();
+    return routine
   };
 
   const handleUpdateExercises = async (
     routineId: RoutineId,
     exercises: Routine["exercises"],
   ) => {
-    await useCases.updateExercises.execute({ routineId, exercises });
+    const routine = await useCases.updateExercises.execute({ routineId, exercises });
     await load();
+    return routine
   };
 
   return (

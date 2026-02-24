@@ -31,11 +31,13 @@ export const RoutineExercisesForm: React.FC<Props> = (props) => {
             state: RoutineExerciseState.ACTIVE,
         })
         setIsCreatingExercise(false);
+        setNewExerciseName('')
     }
 
-    const handleUpdateExercise = async() => {
-        if(!editingExercise) return;
-        await updateExercise(editingExercise)
+    const handleUpdateExercise = async(exercise?: RoutineExercise) => {
+        if(!exercise) return;
+        await updateExercise(exercise)
+        setEditingExercise(undefined)
     }
 
     
