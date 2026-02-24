@@ -3,8 +3,10 @@ import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { CalendarIcon, GaugeIcon, HouseIcon } from '@/src/core/icons';
+import { PATHS } from '@/src/core/router/paths';
+import { Colors } from '@/src/core/theme/theme';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -20,7 +22,21 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) =>  <HouseIcon color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name={PATHS.ROUTINES.screen}
+        options={{
+          title: 'Routines',
+          tabBarIcon: ({ color }) =>  <GaugeIcon color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name={PATHS.CALENDAR.screen}
+        options={{
+          title: 'Calendar',
+          tabBarIcon: ({ color }) =>  <CalendarIcon color={color} />,
         }}
       />
       <Tabs.Screen

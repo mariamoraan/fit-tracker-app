@@ -51,3 +51,50 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+
+// theme.ts
+
+export const Typography = {
+  xs: {
+    fontSize: 12,
+    lineHeight: 16,
+  },
+  sm: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  md: {
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  lg: {
+    fontSize: 18,
+    lineHeight: 28,
+  },
+  xl: {
+    fontSize: 20,
+    lineHeight: 28,
+  },
+  xxl: {
+    fontSize: 24,
+    lineHeight: 32,
+  },
+  medium: {
+    fontWeight: "500" as const,
+  },
+  semibold: {
+    fontWeight: "600" as const,
+  },
+};
+
+export const Radius = {
+  lg: 8,
+  xl: 12,
+  "2xl": 16,
+};
+
+export const FontFamily = {
+  sans: "GeistSans",   
+  mono: "GeistMono",
+};
