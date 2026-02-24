@@ -45,8 +45,8 @@ export const DayBox: React.FC<Props> = ({
       onPress={() => handleDayClick(dateISO)}
       style={[
         styles.container,
-        isSelected && styles.selected,
         isToday && styles.today,
+        isSelected && styles.selected,
       ]}
     >
       <Text
