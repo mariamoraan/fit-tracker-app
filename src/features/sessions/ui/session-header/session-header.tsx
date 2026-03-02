@@ -2,18 +2,24 @@ import { Colors } from "@/src/core/theme/colors";
 import { useGetRoutine } from "@/src/features/routines/ui/hooks/use-get-routine";
 import { useLocalSearchParams } from "expo-router";
 import { CheckIcon } from "lucide-react-native";
-import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
+import { CompleteSessionUseCase } from "../../application/use-cases/CompleteSessionUseCase";
+import { LocalStorageSessionRepository } from "../../infrastructure/storage/LocalStorageSessionRepository";
 import { useGetSession } from "../hooks/useGetSession";
 import { styles } from './session-header.styles';
 
 export const SessionHeader = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
-    const {session} = useGetSession(id)
+    const {session, refetch: refetchSession} = useGetSession(id)
     const {routine} = useGetRoutine(session?.routineId);
-    const [isCompleted, setIsCompleted] = useState(session?.status === 'completed')
-    const toggleIsCompleted = () => {
-        setIsCompleted(prev => !prev)
+    const isCompleted = session?.status === 'completed';
+    const toggleIsCompleted = async () => {
+        if(!session?.id) return;
+        const useCase = new CompleteSessionUseCase(
+            new LocalStorageSessionRepository(),
+        );
+        await useCase.execute({sessionId: session?.id, isCompleted: !isCompleted});
+        refetchSession(id);
     }
     return (
         <View style={styles.sessionHeader}>

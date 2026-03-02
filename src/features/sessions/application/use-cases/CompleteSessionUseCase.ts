@@ -1,11 +1,10 @@
-import type { WorkoutSession } from "../../domain/entities/session";
+import type { SessionId, WorkoutSession } from "../../domain/entities/session";
 import type { SessionRepository } from "../../domain/repositories/SessionRepository";
-import type { SessionId } from "../../domain/entities/session";
 
 export class CompleteSessionUseCase {
   constructor(private readonly repository: SessionRepository) {}
 
-  async execute(sessionId: SessionId): Promise<WorkoutSession> {
+  async execute({sessionId, isCompleted = true}: {sessionId: SessionId, isCompleted: boolean}): Promise<WorkoutSession> {
     const existing = await this.repository.getById(sessionId);
     if (!existing) {
       throw new Error("Session not found");
@@ -13,7 +12,7 @@ export class CompleteSessionUseCase {
 
     const updated: WorkoutSession = {
       ...existing,
-      status: "completed",
+      status: isCompleted ? "completed" : "in-progress",
     };
 
     await this.repository.save(updated);
