@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { ScrollView } from "react-native";
+import { View } from "react-native";
 import { Colors } from "../../theme/colors";
 
 interface Props {
@@ -20,16 +20,15 @@ export const StackScreen: React.FC<React.PropsWithChildren<Props>> = (props) => 
             headerShadowVisible: false,
         }} 
         />
-        <ScrollView
-            contentContainerStyle={{
-                paddingHorizontal: 16,
+        <View style={{ 
+            paddingHorizontal: 16,
                 paddingBottom: 24,
                 paddingTop: 24,
-                flex: 1
-            }}
-        >
+                flexGrow: 1,
+                backgroundColor: Colors.color_zinc_900 
+        }}>
             {children}
-        </ScrollView>
+        </View>
         </>
     )
 }
