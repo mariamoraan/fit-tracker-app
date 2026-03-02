@@ -63,7 +63,7 @@ export const DayBox: React.FC<Props> = ({
         <View style={styles.indicatorsList}>
           {scheduledRoutines.map((routine) => {
             const completed = hasCompletedSession(routine.id);
-
+            
             return (
               <View
                 key={routine.id}

@@ -1,5 +1,6 @@
 import { Colors } from "@/src/core/theme/colors";
 import { useGetRoutine } from "@/src/features/routines/ui/hooks/use-get-routine";
+import { useRoutines } from "@/src/features/routines/ui/RoutinesProvider";
 import { useLocalSearchParams } from "expo-router";
 import { CheckIcon } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
@@ -11,7 +12,8 @@ import { styles } from './session-header.styles';
 export const SessionHeader = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
     const {session, refetch: refetchSession} = useGetSession(id)
-    const {routine} = useGetRoutine(session?.routineId);
+    const {routine } = useGetRoutine(session?.routineId);
+    const {reload: reloadRoutine} = useRoutines();
     const isCompleted = session?.status === 'completed';
     const toggleIsCompleted = async () => {
         if(!session?.id) return;
@@ -20,6 +22,7 @@ export const SessionHeader = () => {
         );
         await useCase.execute({sessionId: session?.id, isCompleted: !isCompleted});
         refetchSession(id);
+        reloadRoutine();
     }
     return (
         <View style={styles.sessionHeader}>
