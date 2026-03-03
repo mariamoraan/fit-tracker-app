@@ -2,7 +2,7 @@ import { RoutineExerciseState } from "@/src/features/routines/domain/entities/ro
 import { useGetRoutine } from "@/src/features/routines/ui/hooks/use-get-routine";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { AddSetUseCase } from "../../application/use-cases/AddSetUseCase";
 import { LocalStorageSessionRepository } from "../../infrastructure/storage/LocalStorageSessionRepository";
 import { useGetSession } from "../hooks/useGetSession";
@@ -46,6 +46,10 @@ export const SessionForm = () => {
     }
 
     return (
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
         <View style={styles.sessionForm}>
             <ScrollView 
             horizontal 
@@ -110,5 +114,6 @@ export const SessionForm = () => {
             </View>
            
         </View>
+        </KeyboardAvoidingView>
     )
 }
