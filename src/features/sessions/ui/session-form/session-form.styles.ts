@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
     sessionForm: {
         marginTop: 24,
         flex: 1,
-        justifyContent: 'flex-start',
     },
     exercisesList: {
         marginBottom: 24,

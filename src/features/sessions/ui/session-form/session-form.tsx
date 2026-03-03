@@ -49,8 +49,13 @@ export const SessionForm = () => {
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
         >
-        <View style={styles.sessionForm}>
+        <ScrollView 
+        style={styles.sessionForm}
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        >
             <ScrollView 
             horizontal 
             contentContainerStyle={styles.exercisesList}
@@ -113,7 +118,7 @@ export const SessionForm = () => {
                 }
             </View>
            
-        </View>
+        </ScrollView>
         </KeyboardAvoidingView>
     )
 }
