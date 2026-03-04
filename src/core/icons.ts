@@ -1,10 +1,9 @@
-import { Calendar, ChartNoAxesColumnIncreasing, Check, Gauge, House, User } from 'lucide-react-native';
+import { Calendar, ChartNoAxesColumnIncreasing, Check, Gauge, House, Pencil, User } from 'lucide-react-native';
 
 export {
     Calendar as CalendarIcon,
     ChartNoAxesColumnIncreasing as ChartIcon,
-    Check as CheckIcon,
-    Gauge as GaugeIcon,
+    Check as CheckIcon, Pencil as EditIcon, Gauge as GaugeIcon,
     House as HouseIcon,
     User as UserIcon
 };

@@ -19,51 +19,50 @@ export class AddSetUseCase {
 
   async execute(input: AddSetInput): Promise<WorkoutSession> {
     const session = await this.repository.getById(input.sessionId);
-    let logs: ExerciseLog[];
 
-    if(!session) {
-      throw Error (`Not found session with id ${input.sessionId}`)
+    if (!session) {
+      throw new Error(`Not found session with id ${input.sessionId}`);
     }
-
-    if (!session.exerciseLogs?.length) {
-      logs = [{
-        id: generateId("log"),
-        routineExerciseId: input.routineExerciseId,
-        sets: [{
-          id: generateId("set"),
-          setNumber: 1,
-          reps: input.reps,
-          weight: input.weight, 
-        }]
-
-      }]
-    } else {
-      logs = session.exerciseLogs.map((log) => {
-        if (log.routineExerciseId !== input.routineExerciseId) return log;
-        const nextSetNumber = log.sets.length + 1;
-        const newSet: SetEntry = {
-          id: generateId("set"),
-          setNumber: nextSetNumber,
-          reps: input.reps,
-          weight: input.weight,
-        };
-  
-        return {
-          ...log,
-          sets: [...log.sets, newSet],
-        };
-      });
-    }
-
-    
 
     const updated: WorkoutSession = {
       ...session,
-      exerciseLogs: logs,
+      exerciseLogs: this.addSetToLogs(session.exerciseLogs ?? [], input),
     };
 
     await this.repository.save(updated);
     return updated;
   }
-}
 
+  private addSetToLogs(logs: ExerciseLog[], input: AddSetInput): ExerciseLog[] {
+    const existingLog = logs.find(
+      (log) => log.routineExerciseId === input.routineExerciseId
+    );
+
+    if (!existingLog) {
+      return [...logs, this.createLog(input)];
+    }
+
+    return logs.map((log) =>
+      log.routineExerciseId === input.routineExerciseId
+        ? { ...log, sets: [...log.sets, this.createSet(log.sets.length + 1, input)] }
+        : log
+    );
+  }
+
+  private createLog(input: AddSetInput): ExerciseLog {
+    return {
+      id: generateId("log"),
+      routineExerciseId: input.routineExerciseId,
+      sets: [this.createSet(1, input)],
+    };
+  }
+
+  private createSet(setNumber: number, input: AddSetInput): SetEntry {
+    return {
+      id: generateId("set"),
+      setNumber,
+      reps: input.reps,
+      weight: input.weight,
+    };
+  }
+}

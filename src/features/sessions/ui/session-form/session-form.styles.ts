@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
         color: Colors.color_zinc_100,
     },
     seriesListLi: {
+        backgroundColor: Colors.color_zinc_600,
         gap: 4,
     },
     serieSummary: {
@@ -82,13 +83,19 @@ export const styles = StyleSheet.create({
         gap: 8,
     },
     setTableRow: {
-        
         flexDirection: 'row',
         gap: 4,
+    },
+    setTableRowBody: {
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: Colors.color_zinc_800,
+        borderRadius: 4,
     },
     setTableCell: {
         flex: 1,
         color: Colors.color_zinc_100,
+        fontSize: 16,
     },
     newSerieText: {
         color: Colors.color_zinc_100,
