@@ -1,5 +1,6 @@
 import { PageShell } from "@/src/core/components/page-shell/page-shell";
-import { Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Pressable, Text, View } from "react-native";
 
 export default function HomeScreen() {
   return (
@@ -46,6 +47,8 @@ export default function HomeScreen() {
             Aún no has creado rutinas. Empieza creando tu primera rutina.
           </Text>
         </View>
+        <Pressable onPress={() => AsyncStorage.clear()}><Text style={{color: 'white'}}>Delete cache</Text></Pressable>
+
       </View>
     </PageShell>
   );

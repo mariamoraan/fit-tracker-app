@@ -3,7 +3,6 @@ import { PATHS } from "@/src/core/router/paths";
 import { Colors } from "@/src/core/theme/colors";
 import { Typography } from "@/src/core/theme/theme";
 import { Routine, RoutineExercise, RoutineExerciseState, RoutineMetadata } from "@/src/features/routines/domain/entities/routine";
-import { RoutineExercisesForm } from "@/src/features/routines/ui/routine-exercises-form/routine-exercises-form";
 import { RoutineForm } from "@/src/features/routines/ui/routine-form/routine-form";
 import { useRoutines } from "@/src/features/routines/ui/RoutinesProvider";
 import { CreateSessionUseCase } from "@/src/features/sessions/application/use-cases/CreateSession";
@@ -115,6 +114,11 @@ export default function RoutineScreen() {
           })
     }
 
+    const onSubmitRoutine = async (routine: Routine) => {
+        await updateRoutineMeta(routine);
+        await updateExercises(routine.id, routine.exercises);
+    }
+
     if(!routine) {
         return (
             <View>
@@ -142,18 +146,10 @@ export default function RoutineScreen() {
                         <Text  style={styles.startSessionText}>Empezar Sesión</Text>
                     </Pressable>
                 </View>
-                {/** META EDIT FORM **/}
-                <RoutineForm 
+                <RoutineForm
                     initialRoutine={routine}
-                    handleSubmit={handleSaveMeta} 
-                    isSubmitting={isLoadingMeta} 
-                />
-                {/** EXERCISES EDIT FORM **/}
-                <RoutineExercisesForm 
-                    activeExercises={routine.exercises.filter(exercise => exercise.state !== RoutineExerciseState.DISCARDED)}
-                    updateExercise={handleUpdateExercises} 
-                    addExercise={handleAddExercise}
-                    handleDeleteExercise={handleDeleteExercise}
+                    onSubmit={onSubmitRoutine}
+                    isSubmitting={isLoadingMeta}
                 />
             </View>
         </StackScreen>

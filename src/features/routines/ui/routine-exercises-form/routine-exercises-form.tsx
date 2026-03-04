@@ -43,109 +43,94 @@ export const RoutineExercisesForm: React.FC<Props> = (props) => {
     
       
     return (
-        <View>
-          <View>
-          {/** HEADER */}
-          <Text style={style.title}>Ejercicios</Text>
-          {activeExercises.length === 0 && (
-            <Text style={style.title}>
-              Aún no has añadido ejercicios. Empieza por el primero.
-            </Text>
-          )}
-
-          {/** EXERCISES LIST */}
-          {activeExercises.length > 0 && (
-            <View style={style.exercisesList}>
-              {activeExercises.map((exercise, index) => (
-                <View
-                  key={exercise.id}
-                  style={style.exercise}
-                >
-                  <View style={style.exerciseInfo}>
-                    <View>
-                      <Text style={style.exerciseName}>
-                        {index + 1}. {exercise.name}
-                      </Text>
-                      <Text style={style.exerciseMetrics}>
-                        {exercise.targetSets && exercise.targetReps
-                          ? `${exercise.targetSets} x ${exercise.targetReps}${
-                              exercise.targetWeight
-                                ? ` · ${exercise.targetWeight} kg`
-                                : ""
-                            }`
-                          : "Objetivos libres"
-                        }                 
-                      </Text>
-                    </View>
-                    {
-                      (!editingExercise || editingExercise.id !== exercise.id) &&
-                      (
-                        <View style={style.exerciseActions}>
-                          <Pressable
-                            onPress={() => openEditExercise(exercise)}
-                            style={style.actionButton}
-                          >
-                            <Text style={style.actionButtonText}>Editar</Text>
-                          </Pressable>
-                          <Pressable
-                            onPress={() => void handleDeleteExercise(exercise.id)}
-                            style={[style.actionButton, style.actionButtonDelete]}
-                          >
-                            <Text style={[style.actionButtonText, style.actionButtonTextDelete]}>Eliminar</Text>
-                          </Pressable>
+        <View style={{ gap: 16 }}>
+            <Text style={{ fontSize: 15, color: '#a1a1aa', marginBottom: 8, fontWeight: '600' }}>Ejercicios de la rutina</Text>
+            {activeExercises.length === 0 && (
+                <Text style={{ color: '#71717a', fontSize: 14, marginBottom: 8 }}>
+                    Aún no has añadido ejercicios. Empieza por el primero.
+                </Text>
+            )}
+            {activeExercises.length > 0 && (
+                <View style={{ gap: 12 }}>
+                    {activeExercises.map((exercise, index) => (
+                        <View
+                            key={exercise.id}
+                            style={{
+                                padding: 14,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                borderColor: '#27272a',
+                                backgroundColor: '#232326',
+                                marginBottom: 4,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <View>
+                                <Text style={{ color: '#fafafa', fontSize: 15, fontWeight: '500' }}>
+                                    {index + 1}. {exercise.name}
+                                </Text>
+                                <Text style={{ color: '#a1a1aa', fontSize: 13 }}>
+                                    {exercise.targetSets && exercise.targetReps
+                                        ? `${exercise.targetSets} x ${exercise.targetReps}${exercise.targetWeight ? ` · ${exercise.targetWeight} kg` : ""}`
+                                        : "Objetivos libres"}
+                                </Text>
+                            </View>
+                            {
+                              (!editingExercise || editingExercise.id !== exercise.id) &&
+                              (
+                                <View style={style.exerciseActions}>
+                                  <Pressable
+                                    onPress={() => openEditExercise(exercise)}
+                                    style={style.actionButton}
+                                  >
+                                    <Text style={style.actionButtonText}>Editar</Text>
+                                  </Pressable>
+                                  <Pressable
+                                    onPress={() => void handleDeleteExercise(exercise.id)}
+                                    style={[style.actionButton, style.actionButtonDelete]}
+                                  >
+                                    <Text style={[style.actionButtonText, style.actionButtonTextDelete]}>Eliminar</Text>
+                                  </Pressable>
+                                </View>
+                              )
+                            }
                         </View>
-                      )
-                    }
-                  </View>
-                  {
-                    editingExercise && editingExercise.id === exercise.id && (
-                      <ExerciseForm 
-                        initialExercise={editingExercise}
-                        handleUpdateExercise={handleUpdateExercise} 
-                        handleCancel={() => setEditingExercise(undefined)} 
-                      />
-                    )
-                  }
+                    ))}
                 </View>
-              ))}
-              
-            </View>
-          )}
-        </View>
-
-        {/** New Exercise Form */}
-        <View style={style.newExerciseForm}>
-          <Text style={style.newExerciseFormTitle}>
-            Añadir ejercicio
-          </Text>
-          <View style={style.newExerciseFormContent}>
-            <View style={style.field}>
-              <Text style={style.label}>
-                Nombre
+            )}
+            <View style={style.newExerciseForm}>
+              <Text style={style.newExerciseFormTitle}>
+                Añadir ejercicio
               </Text>
-              <TextInput
-                value={newExerciseName}
-                onChangeText={(text) => setNewExerciseName(text)}
-                placeholder="Press banca"
-                placeholderTextColor="#71717a"
-                style={style.input}
-              />
+              <View style={style.newExerciseFormContent}>
+                <View style={style.field}>
+                  <Text style={style.label}>
+                    Nombre
+                  </Text>
+                  <TextInput
+                    value={newExerciseName}
+                    onChangeText={(text) => setNewExerciseName(text)}
+                    placeholder="Press banca"
+                    placeholderTextColor="#71717a"
+                    style={style.input}
+                  />
+                </View>
+
+                <Pressable
+                  onPress={handleAddExercise}
+                  disabled={!newExerciseName || isCreatingExercise}
+                  style={style.submit}
+                >
+                  {isCreatingExercise ? (
+                    <ActivityIndicator color="black" />
+                  ) : (
+                    <Text style={style.submitText}>Guardar cambios</Text>
+                  )}
+                </Pressable>
+              </View>
             </View>
-
-            <Pressable
-              onPress={handleAddExercise}
-              disabled={!newExerciseName || isCreatingExercise}
-              style={style.submit}
-            >
-              {isCreatingExercise ? (
-                <ActivityIndicator color="black" />
-              ) : (
-                <Text style={style.submitText}>Guardar cambios</Text>
-              )}
-            </Pressable>
-          </View>
-        </View>
-
         </View>
     )
 }

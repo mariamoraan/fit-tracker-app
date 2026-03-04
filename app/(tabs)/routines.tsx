@@ -75,7 +75,7 @@ export default function RoutinesScreen() {
           <Text>Cargando rutinas...</Text>
         )}
         {!loading && routines.length === 0 && (
-          <Text>
+          <Text style={{color: Colors.color_zinc_400}}>
             Aún no tienes rutinas. Crea la primera para empezar.
           </Text>
         )}

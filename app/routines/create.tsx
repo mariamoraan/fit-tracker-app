@@ -22,7 +22,7 @@ export default function RoutinesNewScreen() {
     return (
         <StackScreen title="New Routine">
             <RoutineForm 
-            handleSubmit={handleCreateRoutine} 
+            onSubmit={handleCreateRoutine} 
             isSubmitting={isLoading} 
             />
         </StackScreen>

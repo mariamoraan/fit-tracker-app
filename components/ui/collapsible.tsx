@@ -5,29 +5,45 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors } from '@/src/core/theme/theme';
+import { Colors } from '@/src/core/theme/colors';
 
-export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function Collapsible({ children, title, isOpen: controlledOpen, setIsOpen: setControlledOpen }: PropsWithChildren & { title: string; isOpen?: boolean; setIsOpen?: (open: boolean) => void }) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const setIsOpen = setControlledOpen ?? setInternalOpen;
   const theme = useColorScheme() ?? 'light';
 
   return (
-    <ThemedView>
+    <ThemedView style={{
+      marginBottom: 16,
+      borderRadius: 14,
+      backgroundColor: Colors.color_zinc_800,
+      borderWidth: 1,
+      borderColor: Colors.color_zinc_800,
+      overflow: 'hidden',
+    }}>
       <TouchableOpacity
-        style={styles.heading}
-        onPress={() => setIsOpen((value) => !value)}
+        style={[styles.heading, {
+          paddingVertical: 16,
+          paddingHorizontal: 18,
+          backgroundColor: Colors.color_zinc_800,
+          borderBottomWidth: isOpen ? 1 : 0,
+          borderBottomColor: Colors.color_zinc_800,
+        }]}
+        onPress={() => setIsOpen(!isOpen)}
         activeOpacity={0.8}>
         <IconSymbol
           name="chevron.right"
-          size={18}
-          weight="medium"
-          color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
-          style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }] }}
+          size={22}
+          weight="bold"
+          color={Colors.color_zinc_100}
+          style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }], marginRight: 8 }}
         />
-
-        <ThemedText type="defaultSemiBold">{title}</ThemedText>
+        <ThemedText type="defaultSemiBold" style={{ fontSize: 17, color: Colors.color_zinc_100 }}>
+          {title}
+        </ThemedText>
       </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
+      {isOpen && <ThemedView style={[styles.content, { padding: 16, backgroundColor: 'transparent' }]}>{children}</ThemedView>}
     </ThemedView>
   );
 }
