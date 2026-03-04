@@ -89,5 +89,8 @@ export const styles = StyleSheet.create({
     setTableCell: {
         flex: 1,
         color: Colors.color_zinc_100,
+    },
+    newSerieText: {
+        color: Colors.color_zinc_100,
     }
 })

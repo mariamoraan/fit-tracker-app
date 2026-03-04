@@ -20,7 +20,6 @@ export const SerieForm: React.FC<Props> = ({
     handleSerieChange,
     initialSerie
 }) => {
-
     const [serie, setSerie] = useState<{ reps?: number; weight?: number } | undefined>(
         initialSerie ?? {}
     );
@@ -36,95 +35,47 @@ export const SerieForm: React.FC<Props> = ({
             reps: serie?.reps,
             weight: serie?.weight
         });
-
         setSerie(undefined);
         Keyboard.dismiss();
     };
 
     return (
-        <View >
-            <View>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        gap: 4,
-                        marginBottom: 8
-                    }}
-                >
-                    {/* REPS */}
-                    <View style={[styles.field, styles.metricsField]}>
-                        <Text style={styles.label}>Reps</Text>
-                        <TextInput
-                            submitBehavior="blurAndSubmit"
-                            keyboardType="numeric"
-                            inputMode="numeric"
-                            value={
-                                serie?.reps !== undefined
-                                    ? String(serie.reps)
-                                    : ""
-                            }
-                            onChangeText={(value) =>
-                                setSerie(prev => ({
-                                    ...prev,
-                                    reps: value === "" ? undefined : Number(value)
-                                }))
-                            }
-                            style={[styles.input, styles.metricsInput]}
-                        />
-                    </View>
-
-                    {/* WEIGHT */}
-                    <View style={[styles.field, styles.metricsField]}>
-                        <Text style={styles.label}>Peso (kg)</Text>
-                        <TextInput
-                            submitBehavior="blurAndSubmit"
-                            keyboardType="decimal-pad"
-                            inputMode="decimal"
-                            value={
-                                serie?.weight !== undefined
-                                    ? String(serie.weight)
-                                    : ""
-                            }
-                            onChangeText={(value) =>
-                                setSerie(prev => ({
-                                    ...prev,
-                                    weight: value === "" ? undefined : Number(value)
-                                }))
-                            }
-                            style={[styles.input, styles.metricsInput]}
-                        />
-                    </View>
-                    </View>
+        <View style={{padding: 16}}>
+            <View style={{flexDirection: "row", gap: 4, marginBottom: 8}}>
+                {/* REPS */}
+                <View style={[styles.field, styles.metricsField]}>
+                    <Text style={styles.label}>Reps</Text>
+                    <TextInput
+                        submitBehavior="blurAndSubmit"
+                        keyboardType="numeric"
+                        inputMode="numeric"
+                        value={serie?.reps !== undefined ? String(serie.reps) : ""}
+                        onChangeText={(value) => setSerie(prev => ({...prev, reps: value === "" ? undefined : Number(value)}))}
+                        style={[styles.input, styles.metricsInput]}
+                    />
+                </View>
+                {/* WEIGHT */}
+                <View style={[styles.field, styles.metricsField]}>
+                    <Text style={styles.label}>Peso (kg)</Text>
+                    <TextInput
+                        submitBehavior="blurAndSubmit"
+                        keyboardType="decimal-pad"
+                        inputMode="decimal"
+                        value={serie?.weight !== undefined ? String(serie.weight) : ""}
+                        onChangeText={(value) => setSerie(prev => ({...prev, weight: value === "" ? undefined : Number(value)}))}
+                        style={[styles.input, styles.metricsInput]}
+                    />
+                </View>
             </View>
-
             {/* BUTTONS */}
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    gap: 12,
-                }}
-            >
-                <Pressable
-                    onPress={onCancel}
-                    style={styles.cancelButton}
-                >
-                    <Text style={styles.cancelButtonText}>
-                        Cancelar
-                    </Text>
+            <View style={{flexDirection: "row", justifyContent: "flex-end", gap: 12}}>
+                <Pressable onPress={onCancel} style={styles.cancelButton}>
+                    <Text style={styles.cancelButtonText}>Cancelar</Text>
                 </Pressable>
-
-                <TouchableOpacity
-                    key="btn-save"
-                    onPress={onSubmitSerie}
-                    style={styles.saveButton}
-                >
-                    <Text style={styles.saveButtonText}>
-                        Guardar
-                    </Text>
+                <TouchableOpacity key="btn-save" onPress={onSubmitSerie} style={styles.saveButton}>
+                    <Text style={styles.saveButtonText}>Guardar</Text>
                 </TouchableOpacity>
             </View>
-               
         </View>
     );
 };
