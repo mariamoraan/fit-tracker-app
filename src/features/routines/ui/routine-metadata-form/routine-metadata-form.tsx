@@ -1,14 +1,10 @@
-// RoutineForm.tsx
-
 import { useState } from "react";
 import {
-  ActivityIndicator,
   Pressable,
   Text,
   TextInput,
   View,
 } from "react-native";
-
 
 import { DatePicker } from "@/src/core/components/date-picker/date-picker";
 import { COLORS } from "../../domain/constants/colors";
@@ -17,14 +13,12 @@ import { Routine, RoutineMetadata } from "../../domain/entities/routine";
 import { styles } from './routine-metadata-form.style';
 
 interface Props {
-  handleSubmit: (props: RoutineMetadata) => void;
-  isSubmitting: boolean;
+  onChange: (props: RoutineMetadata) => void;
   initialRoutine?: Routine;
 }
 
 export const RoutineMetadataForm: React.FC<Props> = ({
-  handleSubmit,
-  isSubmitting,
+  onChange,
   initialRoutine,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -36,55 +30,43 @@ export const RoutineMetadataForm: React.FC<Props> = ({
     startDay: initialRoutine?.startDay ?? new Date(),
   });
 
-  const toggleDay = (value: number) => {
-    setRoutineData((prev) => ({
-      ...prev,
-      daysOfWeek: prev.daysOfWeek.includes(value)
-        ? prev.daysOfWeek.filter((d) => d !== value)
-        : [...prev.daysOfWeek, value],
-    }));
+  const update = (patch: Partial<RoutineMetadata>) => {
+    const next = { ...routineData, ...patch };
+    setRoutineData(next);
+    onChange(next);
   };
 
-  const onSubmit = () => {
-    if (!routineData.name.trim() || isSubmitting) return;
-    handleSubmit(routineData);
+  const toggleDay = (value: number) => {
+    const next = routineData.daysOfWeek.includes(value)
+      ? routineData.daysOfWeek.filter((d) => d !== value)
+      : [...routineData.daysOfWeek, value];
+    update({ daysOfWeek: next });
   };
 
   return (
-    <View style={{ gap: 16 }}>
-      <View style={{ gap: 10 }}>
-        <Text style={{ fontSize: 13, color: '#a1a1aa', marginBottom: 4 }}>Nombre de la rutina</Text>
+    <View style={{ gap: 20 }}>
+      {/* Nombre */}
+      <View style={{ gap: 6 }}>
+        <Text style={styles.label}>Nombre</Text>
         <TextInput
-          style={{
-            paddingVertical: 10,
-            paddingHorizontal: 14,
-            backgroundColor: '#232326',
-            borderWidth: 1,
-            borderColor: '#27272a',
-            borderRadius: 8,
-            color: '#fafafa',
-            fontSize: 16,
-            fontWeight: '500',
-          }}
+          style={styles.input}
           value={routineData.name}
-          onChangeText={name => setRoutineData(prev => ({ ...prev, name }))}
+          onChangeText={name => update({ name })}
           placeholder="Ej: Push Pull Legs"
-          placeholderTextColor="#a1a1aa"
+          placeholderTextColor="#52525b"
         />
       </View>
 
       {/* Color */}
       <View style={{ gap: 10 }}>
-        <Text style={{ fontSize: 13, color: '#a1a1aa', marginBottom: 4 }}>Color identificador</Text>
+        <Text style={styles.label}>Color</Text>
         <View style={styles.colorPicker}>
           {COLORS.map((color) => {
             const selected = routineData.color === color;
             return (
               <Pressable
                 key={color}
-                onPress={() =>
-                  setRoutineData((prev) => ({ ...prev, color }))
-                }
+                onPress={() => update({ color })}
                 style={[
                   styles.colorButton,
                   { backgroundColor: color },
@@ -98,7 +80,7 @@ export const RoutineMetadataForm: React.FC<Props> = ({
 
       {/* Días */}
       <View style={{ gap: 10 }}>
-        <Text style={{ fontSize: 13, color: '#a1a1aa', marginBottom: 4 }}>Días de la semana</Text>
+        <Text style={styles.label}>Días de entrenamiento</Text>
         <View style={styles.daysRow}>
           {WEEK_DAYS.map((day) => {
             const active = routineData.daysOfWeek.includes(day.value);
@@ -111,12 +93,7 @@ export const RoutineMetadataForm: React.FC<Props> = ({
                   active ? styles.dayActive : styles.dayInactive,
                 ]}
               >
-                <Text
-                  style={[
-                    styles.dayText,
-                    active && styles.dayTextActive,
-                  ]}
-                >
+                <Text style={[styles.dayText, active && styles.dayTextActive]}>
                   {day.label}
                 </Text>
               </Pressable>
@@ -125,10 +102,9 @@ export const RoutineMetadataForm: React.FC<Props> = ({
         </View>
       </View>
 
-      {/* Fecha */}
-      <View style={{ gap: 10 }}>
-        <Text style={{ fontSize: 13, color: '#a1a1aa', marginBottom: 4 }}>¿Cuándo empezamos?</Text>
-
+      {/* Fecha de inicio */}
+      <View style={{ gap: 6 }}>
+        <Text style={styles.label}>Fecha de inicio</Text>
         <Pressable
           style={styles.input}
           onPress={() => setShowDatePicker(true)}
@@ -137,39 +113,16 @@ export const RoutineMetadataForm: React.FC<Props> = ({
             {routineData.startDay.toLocaleDateString()}
           </Text>
         </Pressable>
-
         {showDatePicker && (
           <DatePicker
             value={routineData.startDay}
             onChange={(selectedDate) => {
               setShowDatePicker(false);
-              if (selectedDate) {
-                setRoutineData((prev) => ({
-                  ...prev,
-                  startDay: selectedDate,
-                }));
-              }
+              if (selectedDate) update({ startDay: selectedDate });
             }}
           />
         )}
       </View>
-
-      {/* Submit */}
-      <Pressable
-        onPress={onSubmit}
-        disabled={!routineData.name.trim() || isSubmitting}
-        style={[
-          styles.submitButton,
-          (!routineData.name.trim() || isSubmitting) &&
-            styles.submitDisabled,
-        ]}
-      >
-        {isSubmitting ? (
-          <ActivityIndicator color="black" />
-        ) : (
-          <Text style={styles.submitText}>Guardar cambios</Text>
-        )}
-      </Pressable>
     </View>
   );
 };

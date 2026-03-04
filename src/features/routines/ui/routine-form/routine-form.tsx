@@ -13,11 +13,9 @@ interface RoutineFormProps {
 }
 
 export const RoutineForm: React.FC<RoutineFormProps> = ({ initialRoutine, onSubmit, isSubmitting = false }) => {
-    // Collapsible state: metadata open if new routine
     const [metadataOpen, setMetadataOpen] = useState(!initialRoutine);
     const [exercisesOpen, setExercisesOpen] = useState(false);
 
-    // Routine state
     const [routineMeta, setRoutineMeta] = useState<RoutineMetadata>(
         initialRoutine ? {
             name: initialRoutine.name,
@@ -33,11 +31,6 @@ export const RoutineForm: React.FC<RoutineFormProps> = ({ initialRoutine, onSubm
     );
     const [exercises, setExercises] = useState<RoutineExercise[]>(initialRoutine?.exercises ?? []);
 
-    // Handlers
-    const handleMetaSubmit = (meta: RoutineMetadata) => {
-        setRoutineMeta(meta);
-        setMetadataOpen(false);
-    };
     const handleAddExercise = (exercise: RoutineExercise) => {
         setExercises((prev) => [...prev, exercise]);
     };
@@ -56,16 +49,31 @@ export const RoutineForm: React.FC<RoutineFormProps> = ({ initialRoutine, onSubm
         });
     };
 
+    const isValid = routineMeta.name.trim().length > 0;
+
     return (
-        <View style={{ paddingVertical: 16, gap: 20, backgroundColor: '#18181b', borderRadius: 16 }}>
-            <Collapsible title="Editar Info de Rutina" isOpen={metadataOpen} setIsOpen={setMetadataOpen}>
+        <View style={{ paddingVertical: 16, gap: 8, backgroundColor: '#18181b', borderRadius: 16 }}>
+            {/* Metadata section */}
+            <Collapsible
+                title="Info de la rutina"
+                isOpen={metadataOpen}
+                setIsOpen={setMetadataOpen}
+                badge={routineMeta.name ? routineMeta.name : undefined}
+                accentColor={routineMeta.color}
+            >
                 <RoutineMetadataForm
-                    handleSubmit={handleMetaSubmit}
-                    isSubmitting={isSubmitting}
+                    onChange={setRoutineMeta}
                     initialRoutine={initialRoutine}
                 />
             </Collapsible>
-            <Collapsible title="Editar Ejercicios" isOpen={exercisesOpen} setIsOpen={setExercisesOpen}>
+
+            {/* Exercises section */}
+            <Collapsible
+                title="Ejercicios"
+                isOpen={exercisesOpen}
+                setIsOpen={setExercisesOpen}
+                badge={exercises.length > 0 ? `${exercises.length}` : undefined}
+            >
                 <RoutineExercisesForm
                     addExercise={handleAddExercise}
                     updateExercise={handleUpdateExercise}
@@ -73,25 +81,39 @@ export const RoutineForm: React.FC<RoutineFormProps> = ({ initialRoutine, onSubm
                     activeExercises={exercises}
                 />
             </Collapsible>
-            <Pressable
-                onPress={handleSubmit}
-                disabled={isSubmitting}
-                style={{
-                    backgroundColor: isSubmitting ? '#52525b' : Colors.color_accent_500,
-                    paddingVertical: 12,
-                    borderRadius: 12,
-                    alignItems: 'center',
-                    marginTop: 12,
-                    shadowColor: Colors.color_accent_800,
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 4,
-                }}
-            >
-                <Text style={{ color: '#18181b', fontWeight: 'bold', fontSize: 16 }}>
-                    {isSubmitting ? 'Guardando...' : 'Guardar Rutina'}
-                </Text>
-            </Pressable>
+
+            {/* Single save button */}
+            <View style={{ paddingHorizontal: 4, marginTop: 8 }}>
+                {!isValid && (
+                    <Text style={{ color: '#71717a', fontSize: 12, textAlign: 'center', marginBottom: 8 }}>
+                        Añade un nombre a la rutina para continuar
+                    </Text>
+                )}
+                <Pressable
+                    onPress={handleSubmit}
+                    disabled={isSubmitting || !isValid}
+                    style={({ pressed }) => ({
+                        backgroundColor: isSubmitting || !isValid
+                            ? '#3f3f46'
+                            : pressed
+                                ? Colors.color_accent_600
+                                : Colors.color_accent_500,
+                        paddingVertical: 14,
+                        borderRadius: 12,
+                        alignItems: 'center',
+                        opacity: pressed ? 0.9 : 1,
+                    })}
+                >
+                    <Text style={{
+                        color: isSubmitting || !isValid ? '#71717a' : '#18181b',
+                        fontWeight: '700',
+                        fontSize: 15,
+                        letterSpacing: 0.3,
+                    }}>
+                        {isSubmitting ? 'Guardando...' : 'Guardar rutina'}
+                    </Text>
+                </Pressable>
+            </View>
         </View>
     );
 }
